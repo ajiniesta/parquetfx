@@ -3,8 +3,6 @@ package com.iniesta.pfx.gui;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.types.DataType;
 import org.apache.spark.sql.types.DataTypes;
-import org.apache.spark.sql.types.LongType;
-import org.apache.spark.sql.types.StringType;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
 
@@ -17,17 +15,30 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.ToolBar;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
 public class TableFile {
 
+
+    @FXML
+    private VBox parent;
+    
+    @FXML
+    private ProgressBar progressBar;
+    
     @FXML
     private TextField queryTextfield;
 
+    @FXML
+    private ToolBar tb;
+    
     @FXML
     private TableView<Row> data;
 
@@ -55,6 +66,9 @@ public class TableFile {
     		}
 		});
     	data.itemsProperty().bind(slf.valueProperty());
+    	tb.disableProperty().bind(slf.runningProperty());
+    	data.disableProperty().bind(slf.runningProperty());
+    	progressBar.visibleProperty().bind(slf.runningProperty());
     	slf.start();
 	}
 
