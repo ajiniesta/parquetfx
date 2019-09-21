@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iniesta.pfx.gui.TableFile">
+   <children>
+      <ToolBar prefHeight="40.0" prefWidth="200.0">
+        <items>
+            <TextField fx:id="queryTextfield" onAction="#onQueryAction" promptText="Input a Query to customize the Output" />
+          <Button mnemonicParsing="false" onAction="#onQueryAction" text="Query" />
+        </items>
+      </ToolBar>
+      <TableView fx:id="data" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+   </children>
+</VBox>
