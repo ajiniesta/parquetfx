@@ -12,7 +12,7 @@
    <children>
       <ToolBar fx:id="tb">
         <items>
-            <TextField fx:id="queryTextfield" onAction="#onQueryAction" promptText="Input a Query to customize the Output" />
+            <TextField fx:id="queryTextfield" onAction="#onQueryAction" prefWidth="500.0" promptText="Input a Query to customize the Output" />
           <Button mnemonicParsing="false" onAction="#onQueryAction" text="Query" />
         </items>
       </ToolBar>

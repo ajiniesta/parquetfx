@@ -26,73 +26,81 @@ import javafx.util.Callback;
 
 public class TableFile {
 
+	@FXML
+	private VBox parent;
 
-    @FXML
-    private VBox parent;
-    
-    @FXML
-    private ProgressBar progressBar;
-    
-    @FXML
-    private TextField queryTextfield;
+	@FXML
+	private ProgressBar progressBar;
 
-    @FXML
-    private ToolBar tb;
-    
-    @FXML
-    private TableView<Row> data;
+	@FXML
+	private TextField queryTextfield;
+
+	@FXML
+	private ToolBar tb;
+
+	@FXML
+	private TableView<Row> data;
 
 	private StructType schema;
 
-    @FXML
-    void onQueryAction(ActionEvent event) {
-    	data.getItems().clear();
-    	data.getColumns().clear();
-    	ServiceLoadFile slf = new ServiceLoadFile("people.parquet", queryTextfield.getText());
-    	launchServiceLoadFile(slf);
-    }
-	
-    @FXML
-    void initialize() {
-    	ServiceLoadFile slf = new ServiceLoadFile("people.parquet");
-    	launchServiceLoadFile(slf);
-    }
+	private String inputFile;
+
+	@FXML
+	void onQueryAction(ActionEvent event) {
+		if (data.getColumns() != null) {
+			data.getColumns().clear();
+		}
+		ServiceLoadFile slf = new ServiceLoadFile(inputFile, queryTextfield.getText());
+		launchServiceLoadFile(slf);
+	}
+
+	public void initParam(String inputFile) {
+		this.inputFile = inputFile;
+		System.out.println("Initialize params....");
+		ServiceLoadFile slf = new ServiceLoadFile(inputFile);
+		launchServiceLoadFile(slf);
+	}
+
+	@FXML
+	void initialize() {
+		System.out.println("Default Initialize...");
+	}
 
 	private void launchServiceLoadFile(ServiceLoadFile slf) {
-    	slf.stateProperty().addListener((ChangeListener<State>) (observable, oldValue, newValue) -> {
-    		if(State.SUCCEEDED == newValue) {
-    			fillSchema(slf.getValue());
-    			fillTableColumns();
-    		}
+		slf.stateProperty().addListener((ChangeListener<State>) (observable, oldValue, newValue) -> {
+			if (State.SUCCEEDED == newValue) {
+				fillSchema(slf.getValue());
+				fillTableColumns();
+			}
 		});
-    	data.itemsProperty().bind(slf.valueProperty());
-    	tb.disableProperty().bind(slf.runningProperty());
-    	data.disableProperty().bind(slf.runningProperty());
-    	progressBar.visibleProperty().bind(slf.runningProperty());
-    	slf.start();
+		data.itemsProperty().bind(slf.valueProperty());
+		tb.disableProperty().bind(slf.runningProperty());
+		data.disableProperty().bind(slf.runningProperty());
+		progressBar.visibleProperty().bind(slf.runningProperty());
+		slf.start();
 	}
 
 	private void fillTableColumns() {
-		if(schema!=null) {			
+		if (schema != null) {
 			for (StructField field : schema.fields()) {
 				addColumnToTable(field);
 			}
 		}
-		
+
 	}
-	
+
 	private void addColumnToTable(final StructField field) {
 		TableColumn<Row, String> col = new TableColumn<>(field.name());
-		col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Row,String>, ObservableValue<String>>() {
+		col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Row, String>, ObservableValue<String>>() {
 			@Override
 			public ObservableValue<String> call(CellDataFeatures<Row, String> param) {
 				String initialValue = "NULL";
 				DataType dataType = field.dataType();
-				if(dataType.equals(DataTypes.StringType)) {
+				if (dataType.equals(DataTypes.StringType)) {
 					initialValue = param.getValue().getAs(field.name());
 				} else if (dataType.equals(DataTypes.LongType)) {
 					Long inner = param.getValue().getAs(field.name());
-					initialValue = inner!=null?inner.toString():"(NULL)";
+					initialValue = inner != null ? inner.toString() : "(NULL)";
 				}
 				return new SimpleStringProperty(initialValue);
 			}
@@ -101,9 +109,10 @@ public class TableFile {
 	}
 
 	private void fillSchema(ObservableList<Row> value) {
-		if(value!=null && !value.isEmpty()) {
+		if (value != null && !value.isEmpty()) {
 			Row firstRow = value.get(0);
 			schema = firstRow.schema();
 		}
 	}
+
 }
