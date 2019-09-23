@@ -11,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -58,24 +57,12 @@ public class ParquetFx {
 
 	private void addToTabPane(String name, VBox load) {
 		Tab tab = new Tab(name);
-		AnchorPane anchor = new AnchorPane();
-//		anchor.setMinHeight(AnchorPane.USE_PREF_SIZE);
-//		anchor.setMinWidth(AnchorPane.USE_PREF_SIZE);
-//		anchor.setMaxHeight(AnchorPane.USE_PREF_SIZE);
-//		anchor.setMaxWidth(AnchorPane.USE_PREF_SIZE);
-//		anchor.setPrefHeight(AnchorPane.USE_PREF_SIZE);
-//		anchor.setPrefWidth(AnchorPane.USE_PREF_SIZE);
-//		anchor.getChildren().add(load);
-//		load.setMinHeight(AnchorPane.USE_PREF_SIZE);
-//		load.setMinWidth(AnchorPane.USE_PREF_SIZE);
-//		load.setMaxHeight(AnchorPane.USE_PREF_SIZE);
-//		load.setMaxWidth(AnchorPane.USE_PREF_SIZE);
-//		load.setPrefHeight(AnchorPane.USE_PREF_SIZE);
-//		load.setPrefWidth(AnchorPane.USE_PREF_SIZE);
-		AnchorPane.setBottomAnchor(load, 0.0);
-		AnchorPane.setTopAnchor(load, 0.0);
-		AnchorPane.setLeftAnchor(load, 0.0);
-		AnchorPane.setRightAnchor(load, 0.0);
+		load.setMinHeight(VBox.USE_COMPUTED_SIZE);
+		load.setMinWidth(VBox.USE_COMPUTED_SIZE);
+		load.setMaxHeight(VBox.USE_COMPUTED_SIZE);
+		load.setMaxWidth(VBox.USE_COMPUTED_SIZE);
+		load.setPrefHeight(VBox.USE_COMPUTED_SIZE);
+		load.setPrefWidth(VBox.USE_COMPUTED_SIZE);
 		tab.setContent(load);
 		tabPane.getTabs().add(tab);
 		tabPane.getSelectionModel().select(tab);
