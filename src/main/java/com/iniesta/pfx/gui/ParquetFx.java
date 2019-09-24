@@ -9,8 +9,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -86,4 +88,12 @@ public class ParquetFx {
     	System.exit(0);
     }
     
+    @FXML
+    void onAboutAction(ActionEvent event) {
+    	Alert alert = new Alert(AlertType.INFORMATION);
+    	alert.setTitle("About ParquetFX");
+    	alert.setHeaderText("ParquetFX");
+    	alert.setContentText("Read-Only viewer for parquet files.\nCreated by Antonio José Iniesta\nVisit github.com/ajiniesta/parquetfx\nDeveloped under Apache License 2.0");
+    	alert.show();
+    }
 }
