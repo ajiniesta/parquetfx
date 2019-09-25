@@ -14,6 +14,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -40,11 +41,19 @@ public class ParquetFx {
     	fc.setTitle("Open parquet file");
     	Stage stage = new Stage();
     	File file = fc.showOpenDialog(stage);
-    	
     	openTableFile(file.getName(), file.getAbsolutePath());
-    	
     }
 
+    @FXML
+    void openDirectoryAction(ActionEvent event) {
+    	DirectoryChooser fc = new DirectoryChooser();
+    	fc.setTitle("Open parquet file");
+    	Stage stage = new Stage();
+    	File file = fc.showDialog(stage);
+    	openTableFile(file.getName(), file.getAbsolutePath());
+    }
+
+    
 	private void openTableFile(String tabName, String path) {
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/TableFile.fxml"));
     	try {
