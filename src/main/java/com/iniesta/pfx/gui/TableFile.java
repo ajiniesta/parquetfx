@@ -1,5 +1,7 @@
 package com.iniesta.pfx.gui;
 
+import java.io.File;
+
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.types.DataType;
 import org.apache.spark.sql.types.DataTypes;
@@ -43,7 +45,7 @@ public class TableFile {
 
 	private StructType schema;
 
-	private String inputFile;
+	private File inputFile;
 
 	@FXML
 	void onQueryAction(ActionEvent event) {
@@ -54,7 +56,7 @@ public class TableFile {
 		launchServiceLoadFile(slf);
 	}
 
-	public void initParam(String inputFile) {
+	public void initParam(File inputFile) {
 		this.inputFile = inputFile;
 		System.out.println("Initialize params....");
 		ServiceLoadFile slf = new ServiceLoadFile(inputFile);

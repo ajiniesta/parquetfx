@@ -1,5 +1,6 @@
 package com.iniesta.pfx.gui.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.spark.sql.Row;
@@ -13,15 +14,15 @@ import javafx.concurrent.Task;
 
 public class ServiceLoadFile extends Service<ObservableList<Row>> {
 
-	private String inputFile;
+	private File inputFile;
 	private String query;
 
-	public ServiceLoadFile(String inputFile) {
+	public ServiceLoadFile(File inputFile) {
 		this.inputFile = inputFile;
 	}
 	
-	public ServiceLoadFile(String inputFile, String query) {
-		this.inputFile = inputFile;
+	public ServiceLoadFile(File inputFile2, String query) {
+		this.inputFile = inputFile2;
 		this.query = query;
 	}
 	

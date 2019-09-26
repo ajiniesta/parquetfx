@@ -1,36 +1,49 @@
 package com.iniesta.pfx.file;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
+import com.iniesta.pfx.session.SparkSessionSingleton;
+
 public class SparkReaderFile {
 
-	private String master;
-
 	public SparkReaderFile() {
-		this.master = "local[2]"; // Get from config, to allow connect to distributed process
 	}
-	
-	public List<Row> read(String inputFile) {
+
+	public List<Row> read(File inputFile) {
 		return read(inputFile, null);
 	}
-	
-	public List<Row> read(String inputFile, String query) {
-		SparkSession spark = SparkSession
-				  .builder()
-				  .master(master)
-				  .appName("Local spark reader files")
-				  .getOrCreate();
-		Dataset<Row> parquetFileDF = spark.read().parquet(inputFile);
-		parquetFileDF.createOrReplaceTempView("inner");
-		if(query!=null) {
+
+	public List<Row> read(File inputFile, String query) {
+		Dataset<Row> parquetFileDF = null;
+		List<Row> data = new ArrayList<>();
+		SparkSession spark = SparkSessionSingleton.getInstance().getSparkSession();
+		if(inputFile!=null && inputFile.exists()) {
+			parquetFileDF = spark.read().parquet(inputFile.getAbsolutePath());
+			parquetFileDF.createOrReplaceTempView(extractAlias(inputFile));
+		}
+		if (query != null && !query.isEmpty()) {
 			parquetFileDF = spark.sql(query);
 		}
-		List<Row> data = parquetFileDF.collectAsList();
-		spark.close();
+		if(parquetFileDF!=null) {
+			data = parquetFileDF.collectAsList();
+		}
 		return data;
 	}
+
+	public String extractAlias(File inputFile) {
+		String name = inputFile.getName();
+		String[] chunks = name.split("\\.");
+		if (chunks.length > 0) {
+			return chunks[0];
+		} else {
+			return "inner";
+		}
+	}
+
 }

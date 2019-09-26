@@ -1,6 +1,8 @@
 package com.iniesta.pfx;
 
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +19,7 @@ public class TableFile extends Application {
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/TableFile.fxml"));
 //		loader.setController(new ParquetFx());
 		Parent parent = loader.load();
-		loader.<com.iniesta.pfx.gui.TableFile>getController().initParam("ola");
+		loader.<com.iniesta.pfx.gui.TableFile>getController().initParam(new File("ola"));
 		Scene scene = new Scene(parent);
 		stage.setScene(scene);
 		stage.setWidth(800);

@@ -41,7 +41,7 @@ public class ParquetFx {
     	fc.setTitle("Open parquet file");
     	Stage stage = new Stage();
     	File file = fc.showOpenDialog(stage);
-    	openTableFile(file.getName(), file.getAbsolutePath());
+    	openTableFile(file.getName(), file);
     }
 
     @FXML
@@ -50,11 +50,11 @@ public class ParquetFx {
     	fc.setTitle("Open parquet file");
     	Stage stage = new Stage();
     	File file = fc.showDialog(stage);
-    	openTableFile(file.getName(), file.getAbsolutePath());
+    	openTableFile(file.getName(), file);
     }
 
     
-	private void openTableFile(String tabName, String path) {
+	private void openTableFile(String tabName, File path) {
 		FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/TableFile.fxml"));
     	try {
 			Parent load = loader.load();
