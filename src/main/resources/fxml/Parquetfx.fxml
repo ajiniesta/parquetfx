@@ -39,7 +39,8 @@
             <MenuItem disable="true" mnemonicParsing="false" text="Save As…" />
             <MenuItem disable="true" mnemonicParsing="false" text="Revert" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem disable="true" mnemonicParsing="false" text="Preferences…" />
+            <MenuItem mnemonicParsing="false" onAction="#onMonitorAction" text="Monitor" />
+                  <MenuItem disable="true" mnemonicParsing="false" text="Preferences…" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#onQuitAction" text="Quit">
                      <accelerator>

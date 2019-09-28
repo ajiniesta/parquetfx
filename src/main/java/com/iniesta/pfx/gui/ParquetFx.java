@@ -9,11 +9,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -47,7 +49,7 @@ public class ParquetFx {
     @FXML
     void openDirectoryAction(ActionEvent event) {
     	DirectoryChooser fc = new DirectoryChooser();
-    	fc.setTitle("Open parquet file");
+    	fc.setTitle("Open parquet directory");
     	Stage stage = new Stage();
     	File file = fc.showDialog(stage);
     	openTableFile(file.getName(), file);
@@ -104,5 +106,15 @@ public class ParquetFx {
     	alert.setHeaderText("ParquetFX");
     	alert.setContentText("Read-Only viewer for parquet files.\nCreated by Antonio José Iniesta\nVisit github.com/ajiniesta/parquetfx\nDeveloped under Apache License 2.0");
     	alert.show();
+    }
+    
+    @FXML
+    void onMonitorAction(ActionEvent event) {
+    	Tab tab = new Tab("Monitor");
+    	WebView load = new WebView();
+    	load.getEngine().load("http://localhost:4040");
+		tab.setContent(load);
+		tabPane.getTabs().add(tab);
+		tabPane.getSelectionModel().select(tab);
     }
 }
