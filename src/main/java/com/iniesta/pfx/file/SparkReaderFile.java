@@ -40,7 +40,7 @@ public class SparkReaderFile {
 		String name = inputFile.getName();
 		String[] chunks = name.split("\\.");
 		if (chunks.length > 0) {
-			return chunks[0];
+			return chunks[0].replaceAll("-", "");
 		} else {
 			return "inner";
 		}

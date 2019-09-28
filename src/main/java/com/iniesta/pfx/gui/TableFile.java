@@ -8,7 +8,9 @@ import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
 
+import com.iniesta.pfx.gui.cell.TableCellCallback;
 import com.iniesta.pfx.gui.service.ServiceLoadFile;
+import com.iniesta.pfx.model.TableFileConf;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -47,6 +49,8 @@ public class TableFile {
 
 	private File inputFile;
 
+	private TableFileConf tableFileConf;
+
 	@FXML
 	void onQueryAction(ActionEvent event) {
 		if (data.getColumns() != null) {
@@ -66,6 +70,8 @@ public class TableFile {
 	@FXML
 	void initialize() {
 		System.out.println("Default Initialize...");
+		queryTextfield.requestFocus();
+		tableFileConf = new TableFileConf();
 	}
 
 	private void launchServiceLoadFile(ServiceLoadFile slf) {
@@ -84,29 +90,17 @@ public class TableFile {
 
 	private void fillTableColumns() {
 		if (schema != null) {
-			for (StructField field : schema.fields()) {
-				addColumnToTable(field);
+			for (int i = 0; i<schema.fields().length; i++) {
+				StructField field = schema.fields()[i];
+				addColumnToTable(field, i);
 			}
 		}
 
 	}
 
-	private void addColumnToTable(final StructField field) {
+	private void addColumnToTable(final StructField field, int index) {
 		TableColumn<Row, String> col = new TableColumn<>(field.name());
-		col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Row, String>, ObservableValue<String>>() {
-			@Override
-			public ObservableValue<String> call(CellDataFeatures<Row, String> param) {
-				String initialValue = "NULL";
-				DataType dataType = field.dataType();
-				if (dataType.equals(DataTypes.StringType)) {
-					initialValue = param.getValue().getAs(field.name());
-				} else if (dataType.equals(DataTypes.LongType)) {
-					Long inner = param.getValue().getAs(field.name());
-					initialValue = inner != null ? inner.toString() : "(NULL)";
-				}
-				return new SimpleStringProperty(initialValue);
-			}
-		});
+		col.setCellValueFactory(new TableCellCallback(field, index));
 		data.getColumns().add(col);
 	}
 
