@@ -6,5 +6,5 @@ script: "mvn test -B"
 
 sudo: true
 jdk:
-    - openjdk8
+    - openjdk11
 
